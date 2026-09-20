@@ -181,16 +181,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "GET",
             "header": [],
             "url": {
@@ -298,7 +288,7 @@
                   "});\r",
                   "\r",
                   "pm.test(\"Name is updated\", function () {\r",
-                  "    pm.expect(jsonData.name).to.eql(\"Pavan Muthyam Updated\");\r",
+                  "    pm.expect(jsonData.name).to.eql(\"Pavan Muthyam PATCH\");\r",
                   "});\r",
                   "\r",
                   "pm.test(\"Email is present\", function () {\r",
@@ -320,16 +310,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{token}}",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PATCH",
             "header": [],
             "body": {
