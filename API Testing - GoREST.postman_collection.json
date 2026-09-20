@@ -81,16 +81,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
@@ -150,6 +140,38 @@
                   "\r",
                   "pm.test(\"Status is present\", function () {\r",
                   "    pm.expect(jsonData.status).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "const expectjsonschema = {\r",
+                  "    \"type\": \"object\",\r",
+                  "    \"properties\": {\r",
+                  "        \"id\": {\r",
+                  "            \"type\": \"integer\"\r",
+                  "        },\r",
+                  "        \"name\": {\r",
+                  "            \"type\": \"string\"\r",
+                  "        },\r",
+                  "        \"email\": {\r",
+                  "            \"type\": \"string\"\r",
+                  "        },\r",
+                  "        \"gender\": {\r",
+                  "            \"type\": \"string\"\r",
+                  "        },\r",
+                  "        \"status\": {\r",
+                  "            \"type\": \"string\"\r",
+                  "        }\r",
+                  "    },\r",
+                  "    \"required\": [\r",
+                  "        \"id\",\r",
+                  "        \"name\",\r",
+                  "        \"email\",\r",
+                  "        \"gender\",\r",
+                  "        \"status\"\r",
+                  "    ]\r",
+                  "};\r",
+                  "\r",
+                  "pm.test(\"Response matches JSON Schema\", function () {\r",
+                  "    pm.response.to.have.jsonSchema(expectjsonschema);\r",
                   "});"
                 ],
                 "type": "text/javascript",
@@ -164,7 +186,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "value": "{{token}}",
                   "type": "string"
                 }
               ]
@@ -229,21 +251,90 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"name\": \"Pavan Muthyam Updated\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/{{ID}}",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "{{ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Partial Data",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"User ID is present\", function () {\r",
+                  "    pm.expect(jsonData.id).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Name is updated\", function () {\r",
+                  "    pm.expect(jsonData.name).to.eql(\"Pavan Muthyam Updated\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Email is present\", function () {\r",
+                  "    pm.expect(jsonData.email).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Gender is correct\", function () {\r",
+                  "    pm.expect(jsonData.gender).to.eql(\"male\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Status is active\", function () {\r",
+                  "    pm.expect(jsonData.status).to.eql(\"active\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam PATCH\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -286,16 +377,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "DELETE",
             "header": [
               {
@@ -383,16 +464,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
@@ -439,16 +510,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
@@ -495,16 +556,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
@@ -551,16 +602,6 @@
             }
           ],
           "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
-                  "type": "string"
-                }
-              ]
-            },
             "method": "POST",
             "header": [],
             "body": {
@@ -635,6 +676,40 @@
           "response": []
         }
       ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }
