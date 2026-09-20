@@ -1,0 +1,28 @@
+name: GoREST API Tests
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run GoREST API Tests
+        run: |
+          newman run "API Testing - GoREST.postman_collection.json" \
+            -e "GoRest-API.postman_environment.json"
