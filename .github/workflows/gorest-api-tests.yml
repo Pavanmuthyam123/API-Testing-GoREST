@@ -25,4 +25,5 @@ jobs:
       - name: Run GoREST API Tests
         run: |
           newman run "API Testing - GoREST.postman_collection.json" \
-            -e "GoRest-API.postman_environment.json"
+            -e "GoRest-API.postman_environment.json" \
+            --env-var "token=${{ secrets.GOREST_TOKEN }}"
