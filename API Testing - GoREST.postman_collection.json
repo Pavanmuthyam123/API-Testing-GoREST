@@ -1,0 +1,640 @@
+{
+  "info": {
+    "_postman_id": "56c32c7c-1435-4a7b-9cd6-91ea03637dc5",
+    "name": "API Testing - GoREST",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49354608",
+    "_collection_link": "https://go.postman.co/collection/49354608-56c32c7c-1435-4a7b-9cd6-91ea03637dc5?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Positive Tests",
+      "item": [
+        {
+          "name": "Get User Ids",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.environment.set(\"ID\", jsonData.id);\r",
+                  "\r",
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Response has user ID\", function () {\r",
+                  "    pm.expect(jsonData.id).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Name is present\", function () {\r",
+                  "    pm.expect(jsonData.name).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Email is present\", function () {\r",
+                  "    pm.expect(jsonData.email).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Details",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"User ID is present\", function () {\r",
+                  "    pm.expect(jsonData.id).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"User name is present\", function () {\r",
+                  "    pm.expect(jsonData.name).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"User email is present\", function () {\r",
+                  "    pm.expect(jsonData.email).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Gender is present\", function () {\r",
+                  "    pm.expect(jsonData.gender).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Status is present\", function () {\r",
+                  "    pm.expect(jsonData.status).to.exist;\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/{{ID}}",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "{{ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"User ID is present\", function () {\r",
+                  "    pm.expect(jsonData.id).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Name is updated\", function () {\r",
+                  "    pm.expect(jsonData.name).to.eql(\"Pavan Muthyam Updated\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Email is present\", function () {\r",
+                  "    pm.expect(jsonData.email).to.exist;\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Gender is correct\", function () {\r",
+                  "    pm.expect(jsonData.gender).to.eql(\"male\");\r",
+                  "});\r",
+                  "\r",
+                  "pm.test(\"Status is active\", function () {\r",
+                  "    pm.expect(jsonData.status).to.eql(\"active\");\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam Updated\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/{{ID}}",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "{{ID}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {\r",
+                  "    pm.response.to.have.status(204);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/{{ID}}",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "{{ID}}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative Tests",
+      "item": [
+        {
+          "name": "GET - Invalid ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users/abc",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users",
+                "abc"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - Missing Name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {\r",
+                  "    pm.response.to.have.status(422);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"negativepost20260919@example.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - Invalid Email",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {\r",
+                  "    pm.response.to.have.status(422);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam\",\r\n    \"email\": \"invalid-email\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - Invalid Endpoint",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam\",\r\n    \"email\": \"invalidendpoint20260919@example.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/user",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST - Invalid API Version",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam\",\r\n    \"email\": \"invalidendpoint20260989@example.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v7/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v7",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CURL Command",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer 4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92"
+              },
+              {
+                "key": "Cookie",
+                "value": "_gorest_session=5otam5HsPZav%2BfsF2uvKflRx9AtkgFfmD72upgT7DLBkIiqiRgQdakQVBk69m4AvCKlw5WHN%2BaH56aJYE91GIASM1mPJG4r7bgZfPeeXZmPeDwE1DXGlW4J%2FS%2FT38EJ4zqY2T0ZUmUES1HbYbwAKvkhLpXiI8TYXxN45xV7meoP%2FhhdG2yDVXMzzvPhc%2B%2BAqOQlImO6%2FjXk0BZZ8WyPH9AO14lwLsoh79XpaUIZ1FboXnSOoVZ8wuKQVmNUAPvuEi14rMCj5S%2FAiotgyhGFnP9Nv7pRISMc%3D--2o%2F%2Fh8H%2BdJZ9pSjq--7%2BjPNADjqLiBph5%2FlMh3AQ%3D%3D"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Pavan Muthyam\",\r\n    \"email\": \"Yesenia_Murray8@yahoo.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://gorest.co.in/public/v2/users",
+              "protocol": "https",
+              "host": [
+                "gorest",
+                "co",
+                "in"
+              ],
+              "path": [
+                "public",
+                "v2",
+                "users"
+              ]
+            },
+            "description": "Generated from cURL: curl --location 'https://gorest.co.in/public/v2/users' \\\r\n--header 'Content-Type: application/json' \\\r\n--header 'Authorization: Bearer 4bbc4c81d4f3119bba157b6ec1e5e5a4fc8d2c13c989fd005426683ba7b8dc92' \\\r\n--header 'Cookie: _gorest_session=5otam5HsPZav%2BfsF2uvKflRx9AtkgFfmD72upgT7DLBkIiqiRgQdakQVBk69m4AvCKlw5WHN%2BaH56aJYE91GIASM1mPJG4r7bgZfPeeXZmPeDwE1DXGlW4J%2FS%2FT38EJ4zqY2T0ZUmUES1HbYbwAKvkhLpXiI8TYXxN45xV7meoP%2FhhdG2yDVXMzzvPhc%2B%2BAqOQlImO6%2FjXk0BZZ8WyPH9AO14lwLsoh79XpaUIZ1FboXnSOoVZ8wuKQVmNUAPvuEi14rMCj5S%2FAiotgyhGFnP9Nv7pRISMc%3D--2o%2F%2Fh8H%2BdJZ9pSjq--7%2BjPNADjqLiBph5%2FlMh3AQ%3D%3D' \\\r\n--data-raw '{\r\n    \"name\": \"Pavan Muthyam\",\r\n    \"email\": \"Yesenia_Murray8@yahoo.com\",\r\n    \"gender\": \"male\",\r\n    \"status\": \"active\"\r\n}'"
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
